@@ -43,7 +43,7 @@ public class AssetCrypt extends CordovaPlugin {
      */
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        // Log.i(TAG, "Initializing");
+        Log.i(TAG, "Initializing");
         super.initialize(cordova, webView);
 
         this.PLUGIN_URI_PREFIX = CordovaResourceApi.PLUGIN_URI_SCHEME + "://" + getServiceName() + "/";
@@ -52,12 +52,12 @@ public class AssetCrypt extends CordovaPlugin {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(this._PASSWORD_.getBytes("UTF-8"));
             key = md.digest();
-            // Log.d(TAG, "Key " + key.length*8 + " bits: "+ byteToHex(key));
+            //Log.d(TAG, "Key " + key.length*8 + " bits: "+ byteToHex(key));
 
             md = MessageDigest.getInstance("MD5");
             md.update(this._PASSWORD_.getBytes("UTF-8"));
             iv = md.digest();
-            // Log.d(TAG, "IV " + iv.length*8 + " bits: "+ byteToHex(iv));
+            //Log.d(TAG, "IV " + iv.length*8 + " bits: "+ byteToHex(iv));
         } catch(Exception ex) {
             Log.e(TAG, ex.getLocalizedMessage(), ex);
         }
@@ -77,11 +77,11 @@ public class AssetCrypt extends CordovaPlugin {
     @Override
     public Uri remapUri(Uri uri) {
         if(!uri.toString().startsWith(FAKE_URI_PREFIX)) {
-            Log.d(TAG, "Ignoring URI " + uri.toString());
+            //Log.d(TAG, "Ignoring URI " + uri.toString());
             return uri;
         }
         Uri toUri =  Uri.parse(uri.toString().replace(FAKE_URI_PREFIX, PLUGIN_URI_PREFIX));
-        Log.d(TAG, "Remaping URI from " + uri.toString() + " to " + toUri.toString() );
+        //Log.d(TAG, "Remaping URI from " + uri.toString() + " to " + toUri.toString() );
         return toUri;
     }
 

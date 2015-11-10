@@ -3,7 +3,7 @@ Files in `assets/www` directory are encrypted at build, and decrypted at run.
 Encrypted files are generated into `assets/cdata` using hashed filenames.  
 
 ## Add Plugin
-`cordova plugin add cordova-asset-crypt-plugin`
+`cordova plugin add cordova-plugin-asset-crypt`
 
 ## Encrypt (building app)
 `cordova build [ios / android]`
@@ -19,7 +19,7 @@ or
 
 ## License
 
-   Copyright (c) 2016 GFT IT Consulting, S.L.U.
+     Copyright (c) 2016 GFT IT Consulting, S.L.U.
 
      This Source  Code Form  is subject to the  terms of  the Appverse Public License
      Version 2.0  ("APL v2.0").  If a copy of  the APL  was not  distributed with this
