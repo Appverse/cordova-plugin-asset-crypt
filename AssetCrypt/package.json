@@ -1,0 +1,16 @@
+{
+  "name": "cordova-asset-crypt-plugin",
+  "version": "1.0.0",
+  "description": "Plugin to encrypt/decrypt the asset files.",
+  "repository": {
+    "type": "git",
+    "url": "https://appverse.gftlabs.com/git/scm/devltools/cordova-asset-crypt-plugin.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "jordi.murgo@gft.com",
+  "license": "Appverse Public License Version 2.0"
+}
