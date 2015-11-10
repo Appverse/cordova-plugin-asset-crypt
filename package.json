@@ -4,7 +4,7 @@
   "description": "Plugin to encrypt/decrypt the asset files.",
   "repository": {
     "type": "git",
-    "url": "https://appverse.gftlabs.com/git/scm/devltools/cordova-asset-crypt-plugin.git"
+    "url": "https://appverse.gftlabs.com/git/scm/devltools/cordova-plugin-asset-crypt.git"
   },
   "keywords": [
     "ecosystem:cordova",
