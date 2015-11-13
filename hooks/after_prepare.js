@@ -6,13 +6,15 @@ var path = require('path');
 
 module.exports = function(_context) {
 
+    var ConfigParser = _context.requireCordovaModule('cordova-lib').configparser;
+
     var password =  crypto.randomBytes(16).toString('hex');
     var key = crypto.createHash("sha256").update(password).digest();
     var iv = crypto.createHash("md5").update(password).digest();
 
     console.log("Password=%s key=%s iv=%s", password, key.toString('hex'), iv.toString('hex'));
 
-    // console.log("context: %j", _context);
+    // console.log("platforms: %j", _context);
 
     var rootDir = _context.opts.projectRoot;
 
@@ -25,7 +27,7 @@ module.exports = function(_context) {
             var wwwDir = path.join(assetsDir, 'www');
 
             // Fix configuration
-            changeConfigXml_android(androidDir);
+            changeConfigXml(path.join(androidDir, 'res/xml/config.xml'));
 
             // Fix Java Code
             changePassword_android(androidDir, password);
@@ -43,6 +45,36 @@ module.exports = function(_context) {
             });
             console.log("Deleting decrypted assets...");
             deleteFolderRecursive(wwwDir);
+        } else if (_platform == 'ios') {
+            var config = new ConfigParser(path.join(rootDir, 'config.xml'));
+            var appName = config.doc.findall('name')[0].text;
+
+            var iosDir = path.join(rootDir, 'platforms', _platform);
+            var cdataDir = path.join(iosDir, appName, 'Resources', 'cdata.bundle');
+            var srcDir = path.join(iosDir, appName, 'Plugins', 'cordova-plugin-asset-crypt');
+            var wwwDir = path.join(iosDir, 'www');
+
+            // Fix configuration
+            changeConfigXml(path.join(iosDir, appName, 'config.xml'));
+
+            // Fix Objective C Code
+            changePassword_ios(srcDir, password);
+
+            // Create or clean cdata Directory
+            deleteFolderRecursive(cdataDir);
+            fs.mkdirSync(cdataDir);
+
+            console.log("Encrypting android assets...");
+            findAssets(iosDir, "www/").forEach(function (_fileName) {
+                var cryptedPath = path.join(cdataDir, encodeName(_fileName, password));
+                var originalPath = path.join(iosDir, _fileName);
+                // console.log("encrypting %s to %s", originalPath, cryptedPath);
+                encryptAsset(originalPath, cryptedPath, key, iv);
+            });
+            console.log("Deleting decrypted assets...");
+            deleteFolderRecursive(wwwDir);
+            fs.mkdirSync(wwwDir);
+
         } else {
           console.log("I'm sorry, platform " + _platform + " is not supported yet!");
         }
@@ -119,14 +151,11 @@ function encryptAsset(plainFile, cryptedFile, key, iv) {
 
 /**
  * Update content source in config.xml
- * @param pluginDir
+ * @param configFile
  */
-function changeConfigXml_android(pluginDir) {
-    var configFile = path.join(pluginDir, 'res/xml/config.xml');
+function changeConfigXml(configFile) {
     var content = fs.readFileSync(configFile, 'utf-8');
-
-    var replacedContent = content.replace(/content src="file:.*"/, 'content src="crypt://localhost/index.html"');
-
+    var replacedContent = content.replace(/content src=".*"/, 'content src="crypt://localhost/index.html"');
     fs.writeFileSync(configFile, replacedContent, 'utf-8');
 }
 
@@ -143,6 +172,21 @@ function changePassword_android(pluginDir, password) {
 
     fs.writeFileSync(javaFile, replacedContent, 'utf-8');
 }
+
+/**
+ * Update password content in java source
+ * @param srcDir
+ * @param password
+ */
+function changePassword_ios(srcDir, password) {
+    var objcFile = path.join(srcDir, 'AssetCrypt.m');
+    var content = fs.readFileSync(objcFile, 'utf-8');
+
+    var replacedContent = content.replace(/_PASSWORD_ = @".*";/, '_PASSWORD_ = @"' + password + '";');
+
+    fs.writeFileSync(objcFile, replacedContent, 'utf-8');
+}
+
 
 /**
  * Remove directory and all contained files and directories.

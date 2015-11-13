@@ -5,6 +5,23 @@
     <name>AssetCrypt</name>
     <description>Encrypted assets filesystem</description>
 
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="AssetCrypt">
+                <param name="ios-package" value="AssetCrypt"/>
+                <param name="onload" value="true"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/AssetCrypt.h" />
+        <source-file src="src/ios/AssetCrypt.m" />
+        <header-file src="src/ios/FBEncryptorAES.h" />
+        <source-file src="src/ios/FBEncryptorAES.m" />
+        <header-file src="src/ios/CryptProtocol.h" />
+        <source-file src="src/ios/CryptProtocol.m" />
+        <resource-file src="src/ios/cdata.bundle" />
+    </platform>
+
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="AssetCrypt">
