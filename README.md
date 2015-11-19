@@ -19,11 +19,11 @@ or
 
 ## License
 
-     Copyright (c) 2016 GFT IT Consulting, S.L.U.
+     Copyright (c) 2015 GFT Appverse, S.L., Sociedad Unipersonal
 
      This Source  Code Form  is subject to the  terms of  the Appverse Public License
      Version 2.0  ("APL v2.0").  If a copy of  the APL  was not  distributed with this
-     file, You can obtain one at <http://appverse.org/legal/appverse-license/>.
+     file, You can obtain one at <http://appverse.org/#/license/information>.
 
      Redistribution and use in  source and binary forms, with or without modification,
      are permitted provided that the  conditions  of the  AppVerse Public License v2.0

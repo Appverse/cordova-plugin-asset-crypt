@@ -25,14 +25,14 @@
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="AssetCrypt">
-                <param name="android-package" value="com.gft.cordova.plugins.assetcrypt.AssetCrypt" />
+                <param name="android-package" value="org.appverse.cordova.plugins.assetcrypt.AssetCrypt" />
                 <param name="onload" value="true" />
             </feature>
             <access origin="crypt://*" />
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
         <source-file src="src/android/AssetCrypt.java"
-                     target-dir="src/com/gft/cordova/plugins/assetcrypt" />
+                     target-dir="src/org/appverse/cordova/plugins/assetcrypt" />
     </platform>
 
     <hook type="after_prepare" src="hooks/after_prepare.js" />
